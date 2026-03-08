@@ -158,3 +158,5 @@ All members should be ready for Q&A on:
 - README includes/links gameplay video showing `play.py` running.
 - GitHub repository URL ready for Attempt 2.
 - Zip export ready for Attempt 1.
+
+<!-- Elissa: Added initial experiment plan E1-E5 -->
