@@ -160,3 +160,5 @@ All members should be ready for Q&A on:
 - Zip export ready for Attempt 1.
 
 <!-- Elissa: Added initial experiment plan E1-E5 -->
+
+<!-- Caline: Added experiment plan C1-C5 -->
