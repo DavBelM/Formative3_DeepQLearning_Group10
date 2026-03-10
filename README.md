@@ -164,3 +164,5 @@ All members should be ready for Q&A on:
 <!-- Caline: Added experiment plan C1-C5 -->
 
 <!-- DavBelM: Refined README structure and experiment table -->
+
+<!-- Elissa: Added experiments E6-E10 -->
