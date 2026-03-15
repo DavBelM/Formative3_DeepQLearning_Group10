@@ -15,6 +15,7 @@ TOTAL_TIMESTEPS = 1_000_000
 lr = 1e-4
 gamma = 0.99
 batch_size = 32
+epsilon_start = 1.0
 exploration_fraction = 0.1
 exploration_final_eps = 0.02
 
@@ -56,6 +57,7 @@ def main() -> None:
         learning_rate=lr,
         gamma=gamma,
         batch_size=batch_size,
+        exploration_initial_eps=epsilon_start,
         exploration_fraction=exploration_fraction,
         exploration_final_eps=exploration_final_eps,
         tensorboard_log=str(LOG_DIR),
