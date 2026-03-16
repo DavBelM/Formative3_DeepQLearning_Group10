@@ -102,16 +102,6 @@ Each member must complete **10 experiments** with different hyperparameter combi
 
 | Member | Experiment ID | Policy    |  lr | gamma | batch_size | epsilon_start | epsilon_end | epsilon_fraction | Mean Eval Reward | Noted Behavior |
 | ------ | ------------- | --------- | --: | ----: | ---------: | ------------: | ----------: | ---------------: | ---------------: | -------------- |
-| Mitali | M1            | CnnPolicy |     |       |            |               |             |                  |                  |                |
-| Mitali | M2            |           |     |       |            |               |             |                  |                  |                |
-| Mitali | M3            |           |     |       |            |               |             |                  |                  |                |
-| Mitali | M4            |           |     |       |            |               |             |                  |                  |                |
-| Mitali | M5            |           |     |       |            |               |             |                  |                  |                |
-| Mitali | M6            |           |     |       |            |               |             |                  |                  |                |
-| Mitali | M7            |           |     |       |            |               |             |                  |                  |                |
-| Mitali | M8            |           |     |       |            |               |             |                  |                  |                |
-| Mitali | M9            |           |     |       |            |               |             |                  |                  |                |
-| Mitali | M10           |           |     |       |            |               |             |                  |                  |                |
 | Caline | C1  | CnnPolicy | 3e-4  | 0.99  |  32 | 1.0 | 0.01  | 0.10 | -18.40 | Stable baseline; agent begins learning but mostly losing at 50k steps |
 | Caline | C2  | CnnPolicy | 3e-4  | 0.90  |  32 | 1.0 | 0.01  | 0.10 | -20.10 | Low gamma hurts long-term planning; agent nearly always losing |
 | Caline | C3  | CnnPolicy | 3e-4  | 0.99  | 256 | 1.0 | 0.01  | 0.10 | -17.60 | Large batch slows updates; more stable but still early learning |
@@ -132,6 +122,16 @@ Each member must complete **10 experiments** with different hyperparameter combi
 | Elissa | E8  | CnnPolicy | 1e-3  | 0.98  |  64 | 1.0 | 0.05  | 0.10 | -16.60 | High lr + larger batch; faster but noisier, high reward variance |
 | Elissa | E9  | CnnPolicy | 1e-4  | 0.99  |  32 | 1.0 | 0.20  | 0.10 | -19.80 | High epsilon_end; persistent random actions, agent struggles to exploit |
 | Elissa | E10 | CnnPolicy | 5e-4  | 0.999 |  32 | 1.0 | 0.01  | 0.05 | -17.20 | Very high gamma + low epsilon; values future rewards, short explore |
+| Mitali | M1            | CnnPolicy | 1e-4 | 0.99 | 32 | 1.0 | 0.02 | 0.10 |  |  |
+| Mitali | M2            | CnnPolicy | 1e-3 | 0.99 | 32 | 1.0 | 0.02 | 0.10 |  |  |
+| Mitali | M3            | CnnPolicy | 1e-5 | 0.99 | 32 | 1.0 | 0.02 | 0.10 |  |  |
+| Mitali | M4            | CnnPolicy | 1e-4 | 0.95 | 32 | 1.0 | 0.02 | 0.10 |  |  |
+| Mitali | M5            | CnnPolicy | 1e-4 | 0.999 | 32 | 1.0 | 0.02 | 0.10 |  |  |
+| Mitali | M6            | CnnPolicy | 1e-4 | 0.99 | 64 | 1.0 | 0.02 | 0.10 |  |  |
+| Mitali | M7            | CnnPolicy | 1e-4 | 0.99 | 16 | 1.0 | 0.02 | 0.10 |  |  |
+| Mitali | M8            | CnnPolicy | 1e-4 | 0.99 | 32 | 1.0 | 0.02 | 0.20 |  |  |
+| Mitali | M9            | CnnPolicy | 1e-4 | 0.99 | 32 | 1.0 | 0.10 | 0.10 |  |  |
+| Mitali | M10           | MlpPolicy | 1e-4 | 0.99 | 32 | 1.0 | 0.02 | 0.10 |  |  |
 
 ## Presentation Plan (10 minutes)
 
