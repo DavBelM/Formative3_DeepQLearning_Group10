@@ -102,16 +102,16 @@ Each member must complete **10 experiments** with different hyperparameter combi
 
 | Member | Experiment ID | Policy    |  lr | gamma | batch_size | epsilon_start | epsilon_end | epsilon_fraction | Mean Eval Reward | Noted Behavior |
 | ------ | ------------- | --------- | --: | ----: | ---------: | ------------: | ----------: | ---------------: | ---------------: | -------------- |
-| Mitali | M1            | CnnPolicy |     |       |            |               |             |                  |                  |                |
-| Mitali | M2            |           |     |       |            |               |             |                  |                  |                |
-| Mitali | M3            |           |     |       |            |               |             |                  |                  |                |
-| Mitali | M4            |           |     |       |            |               |             |                  |                  |                |
-| Mitali | M5            |           |     |       |            |               |             |                  |                  |                |
-| Mitali | M6            |           |     |       |            |               |             |                  |                  |                |
-| Mitali | M7            |           |     |       |            |               |             |                  |                  |                |
-| Mitali | M8            |           |     |       |            |               |             |                  |                  |                |
-| Mitali | M9            |           |     |       |            |               |             |                  |                  |                |
-| Mitali | M10           |           |     |       |            |               |             |                  |                  |                |
+| Mitali | M1            | CnnPolicy | 1e-4 | 0.99 | 32 | 1.0 | 0.02 | 0.10 |  |  |
+| Mitali | M2            | CnnPolicy | 1e-3 | 0.99 | 32 | 1.0 | 0.02 | 0.10 |  |  |
+| Mitali | M3            | CnnPolicy | 1e-5 | 0.99 | 32 | 1.0 | 0.02 | 0.10 |  |  |
+| Mitali | M4            | CnnPolicy | 1e-4 | 0.95 | 32 | 1.0 | 0.02 | 0.10 |  |  |
+| Mitali | M5            | CnnPolicy | 1e-4 | 0.999 | 32 | 1.0 | 0.02 | 0.10 |  |  |
+| Mitali | M6            | CnnPolicy | 1e-4 | 0.99 | 64 | 1.0 | 0.02 | 0.10 |  |  |
+| Mitali | M7            | CnnPolicy | 1e-4 | 0.99 | 16 | 1.0 | 0.02 | 0.10 |  |  |
+| Mitali | M8            | CnnPolicy | 1e-4 | 0.99 | 32 | 1.0 | 0.02 | 0.20 |  |  |
+| Mitali | M9            | CnnPolicy | 1e-4 | 0.99 | 32 | 1.0 | 0.10 | 0.10 |  |  |
+| Mitali | M10           | MlpPolicy | 1e-4 | 0.99 | 32 | 1.0 | 0.02 | 0.10 |  |  |
 | Caline | C1            | CnnPolicy |     |       |            |               |             |                  |                  |                |
 | Caline | C2            |           |     |       |            |               |             |                  |                  |                |
 | Caline | C3            |           |     |       |            |               |             |                  |                  |                |
