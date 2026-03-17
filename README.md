@@ -104,14 +104,14 @@ Each member must complete **10 experiments** with different hyperparameter combi
 | ------ | ------------- | --------- | ---: | ----: | ---------: | ------------: | ----------: | ---------------: | ---------------: | -------------- |
 | Mitali | M1            | CnnPolicy | 1e-4 |  0.99 |         32 |           1.0 |        0.02 |             0.10 |           -20.00 | Mostly stable but weak performance (agent often loses; little improvement). |
 | Mitali | M2            | CnnPolicy | 1e-3 |  0.99 |         32 |           1.0 |        0.02 |             0.10 |           -21.00 | Agent not learning yet; almost always losing in this run. |
-| Mitali | M3            | CnnPolicy | 1e-5 |  0.99 |         32 |           1.0 |        0.02 |             0.10 |                  |                |
-| Mitali | M4            | CnnPolicy | 1e-4 |  0.95 |         32 |           1.0 |        0.02 |             0.10 |                  |                |
-| Mitali | M5            | CnnPolicy | 1e-4 | 0.999 |         32 |           1.0 |        0.02 |             0.10 |                  |                |
-| Mitali | M6            | CnnPolicy | 1e-4 |  0.99 |         64 |           1.0 |        0.02 |             0.10 |                  |                |
-| Mitali | M7            | CnnPolicy | 1e-4 |  0.99 |         16 |           1.0 |        0.02 |             0.10 |                  |                |
-| Mitali | M8            | CnnPolicy | 1e-4 |  0.99 |         32 |           1.0 |        0.02 |             0.20 |                  |                |
-| Mitali | M9            | CnnPolicy | 1e-4 |  0.99 |         32 |           1.0 |        0.10 |             0.10 |                  |                |
-| Mitali | M10           | MlpPolicy | 1e-4 |  0.99 |         32 |           1.0 |        0.02 |             0.10 |                  |                |
+| Mitali | M3            | CnnPolicy | 1e-5 |  0.99 |         32 |           1.0 |        0.02 |             0.10 |           -20.60 | Very low learning rate updates too slowly; only slight improvement from random play. |
+| Mitali | M4            | CnnPolicy | 1e-4 |  0.95 |         32 |           1.0 |        0.02 |             0.10 |           -20.80 | Lower gamma reduced long-term planning; performance stayed weak with minimal learning. |
+| Mitali | M5            | CnnPolicy | 1e-4 | 0.999 |         32 |           1.0 |        0.02 |             0.10 |           -20.40 | Higher gamma slightly improved rewards, but the agent still learned very little overall. |
+| Mitali | M6            | CnnPolicy | 1e-4 |  0.99 |         64 |           1.0 |        0.02 |             0.10 |           -18.60 | Larger batch size gave noticeably better stability and the best learning so far. |
+| Mitali | M7            | CnnPolicy | 1e-4 |  0.99 |         16 |           1.0 |        0.02 |             0.10 |           -21.00 | Small batch size made training unstable and the agent failed to learn. |
+| Mitali | M8            | CnnPolicy | 1e-4 |  0.99 |         32 |           1.0 |        0.02 |             0.20 |           -19.80 | More exploration helped slightly, but learning remained limited overall. |
+| Mitali | M9            | CnnPolicy | 1e-4 |  0.99 |         32 |           1.0 |        0.10 |             0.10 |           -20.40 | Higher epsilon_end still hurt exploitation, but this rerun performed slightly better than the first attempt. |
+| Mitali | M10           | MlpPolicy | 1e-4 |  0.99 |         32 |           1.0 |        0.02 |             0.10 |           -21.00 | MlpPolicy performed very poorly on raw Atari frames and failed to learn useful behavior. |
 | Caline | C1            | CnnPolicy | 3e-4 |  0.99 |         32 |           1.0 |        0.01 |             0.10 |           -18.40 | Stable baseline; agent begins learning but mostly losing at 50k steps. |
 | Caline | C2            | CnnPolicy | 3e-4 |  0.90 |         32 |           1.0 |        0.01 |             0.10 |           -20.10 | Low gamma hurts long-term planning; agent nearly always losing. |
 | Caline | C3            | CnnPolicy | 3e-4 |  0.99 |        256 |           1.0 |        0.01 |             0.10 |           -17.60 | Large batch slows updates; more stable but still early learning. |
