@@ -1,6 +1,6 @@
 ﻿# Formative3_DeepQLearning_Group10
 
-DQN Atari assignment repository for Group 10.
+DQN deep reinforcement learning assignment—training agents to play Atari Pong.
 
 ## Group Members
 
@@ -8,11 +8,11 @@ DQN Atari assignment repository for Group 10.
 - Caline
 - Elissa
 
-## Environment Choice
+## The Game: Pong
 
-- Primary Atari environment: `ALE/Pong-v5`
+We trained DQN agents on `ALE/Pong-v5` (the classic Atari Pong game). The agent controls the paddle using only the raw pixels from the screen—no hand-crafted features.
 
-You can switch to another Atari environment by passing `--env-id` in both scripts.
+(Want to try a different Atari game? Use `--env-id` with any game like `ALE/Breakout-v5`, `ALE/SpaceInvaders-v5`, etc.)
 
 ## Repository Files
 
@@ -31,7 +31,9 @@ pip install -r requirements.txt
 
 ## Task 1: Training (train.py)
 
-### 1) Baseline CNN run
+Use this script to train a DQN agent on Pong from scratch.
+
+### Basic CNN training
 
 ```bash
 python train.py \
@@ -48,7 +50,7 @@ python train.py \
 	--model-path models/dqn_model.zip
 ```
 
-### 2) Compare against MLP
+### Try MLP on raw pixels (spoiler: not recommended)
 
 ```bash
 python train.py \
@@ -73,7 +75,9 @@ python train.py \
 - Run configuration: `logs/<experiment_name>/run_config.json`
 - Global experiment tracker: `logs/experiments.csv`
 
-## Task 2: Play/Evaluation (play.py)
+## Task 2: Evaluation & Video (play.py)
+
+Load a trained model and watch it play. The script uses `deterministic=True` for greedy action selection during evaluation.
 
 ```bash
 python play.py \
@@ -83,7 +87,7 @@ python play.py \
 	--episodes 3
 ```
 
-Optional video recording:
+Or record gameplay video:
 
 ```bash
 python play.py \
@@ -94,70 +98,70 @@ python play.py \
 	--record-video-dir videos
 ```
 
-`play.py` uses `deterministic=True` in `model.predict(...)`, which is greedy action selection for DQN evaluation.
+## Hyperparameter Tuning Results
 
-## Hyperparameter Tuning Table (Required)
+We ran 10 experiments per team member (30 total) with different hyperparameter combinations to see what works best for DQN on Pong.
 
-Each member must complete **10 experiments** with different hyperparameter combinations.
-
-| Member | Experiment ID | Policy    |   lr | gamma | batch_size | epsilon_start | epsilon_end | epsilon_fraction | Mean Eval Reward | Noted Behavior |
-| ------ | ------------- | --------- | ---: | ----: | ---------: | ------------: | ----------: | ---------------: | ---------------: | -------------- |
-| Mitali | M1            | CnnPolicy | 1e-4 |  0.99 |         32 |           1.0 |        0.02 |             0.10 |           -20.00 | Mostly stable but weak performance (agent often loses; little improvement). |
-| Mitali | M2            | CnnPolicy | 1e-3 |  0.99 |         32 |           1.0 |        0.02 |             0.10 |           -21.00 | Agent not learning yet; almost always losing in this run. |
-| Mitali | M3            | CnnPolicy | 1e-5 |  0.99 |         32 |           1.0 |        0.02 |             0.10 |           -20.60 | Very low learning rate updates too slowly; only slight improvement from random play. |
-| Mitali | M4            | CnnPolicy | 1e-4 |  0.95 |         32 |           1.0 |        0.02 |             0.10 |           -20.80 | Lower gamma reduced long-term planning; performance stayed weak with minimal learning. |
-| Mitali | M5            | CnnPolicy | 1e-4 | 0.999 |         32 |           1.0 |        0.02 |             0.10 |           -20.40 | Higher gamma slightly improved rewards, but the agent still learned very little overall. |
-| Mitali | M6            | CnnPolicy | 1e-4 |  0.99 |         64 |           1.0 |        0.02 |             0.10 |           -18.60 | Larger batch size gave noticeably better stability and the best learning so far. |
-| Mitali | M7            | CnnPolicy | 1e-4 |  0.99 |         16 |           1.0 |        0.02 |             0.10 |           -21.00 | Small batch size made training unstable and the agent failed to learn. |
-| Mitali | M8            | CnnPolicy | 1e-4 |  0.99 |         32 |           1.0 |        0.02 |             0.20 |           -19.80 | More exploration helped slightly, but learning remained limited overall. |
+| Member | Experiment ID | Policy    |   lr | gamma | batch_size | epsilon_start | epsilon_end | epsilon_fraction | Mean Eval Reward | Noted Behavior                                                                                               |
+| ------ | ------------- | --------- | ---: | ----: | ---------: | ------------: | ----------: | ---------------: | ---------------: | ------------------------------------------------------------------------------------------------------------ |
+| Mitali | M1            | CnnPolicy | 1e-4 |  0.99 |         32 |           1.0 |        0.02 |             0.10 |           -20.00 | Mostly stable but weak performance (agent often loses; little improvement).                                  |
+| Mitali | M2            | CnnPolicy | 1e-3 |  0.99 |         32 |           1.0 |        0.02 |             0.10 |           -21.00 | Agent not learning yet; almost always losing in this run.                                                    |
+| Mitali | M3            | CnnPolicy | 1e-5 |  0.99 |         32 |           1.0 |        0.02 |             0.10 |           -20.60 | Very low learning rate updates too slowly; only slight improvement from random play.                         |
+| Mitali | M4            | CnnPolicy | 1e-4 |  0.95 |         32 |           1.0 |        0.02 |             0.10 |           -20.80 | Lower gamma reduced long-term planning; performance stayed weak with minimal learning.                       |
+| Mitali | M5            | CnnPolicy | 1e-4 | 0.999 |         32 |           1.0 |        0.02 |             0.10 |           -20.40 | Higher gamma slightly improved rewards, but the agent still learned very little overall.                     |
+| Mitali | M6 (200k)     | CnnPolicy | 1e-4 |  0.99 |         64 |           1.0 |        0.02 |             0.10 |           -13.33 | Enhanced with 200k timesteps instead of 50k—significantly stronger learning. Agent clearly improving at Pong. |
+| Mitali | M7            | CnnPolicy | 1e-4 |  0.99 |         16 |           1.0 |        0.02 |             0.10 |           -21.00 | Small batch size made training unstable and the agent failed to learn.                                       |
+| Mitali | M8            | CnnPolicy | 1e-4 |  0.99 |         32 |           1.0 |        0.02 |             0.20 |           -19.80 | More exploration helped slightly, but learning remained limited overall.                                     |
 | Mitali | M9            | CnnPolicy | 1e-4 |  0.99 |         32 |           1.0 |        0.10 |             0.10 |           -20.40 | Higher epsilon_end still hurt exploitation, but this rerun performed slightly better than the first attempt. |
-| Mitali | M10           | MlpPolicy | 1e-4 |  0.99 |         32 |           1.0 |        0.02 |             0.10 |           -21.00 | MlpPolicy performed very poorly on raw Atari frames and failed to learn useful behavior. |
-| Caline | C1            | CnnPolicy | 3e-4 |  0.99 |         32 |           1.0 |        0.01 |             0.10 |           -18.40 | Stable baseline; agent begins learning but mostly losing at 50k steps. |
-| Caline | C2            | CnnPolicy | 3e-4 |  0.90 |         32 |           1.0 |        0.01 |             0.10 |           -20.10 | Low gamma hurts long-term planning; agent nearly always losing. |
-| Caline | C3            | CnnPolicy | 3e-4 |  0.99 |        256 |           1.0 |        0.01 |             0.10 |           -17.60 | Large batch slows updates; more stable but still early learning. |
-| Caline | C4            | CnnPolicy | 3e-4 |  0.99 |         32 |           1.0 |        0.01 |             0.30 |           -16.80 | More exploration time; agent explores longer before committing. |
-| Caline | C5            | CnnPolicy | 3e-4 |  0.99 |         32 |           1.0 |        0.50 |             0.10 |           -20.60 | Very high epsilon_end keeps policy near-random; agent not converging. |
-| Caline | C6            | CnnPolicy | 1e-3 |  0.99 |        128 |           1.0 |        0.01 |             0.20 |           -15.20 | Higher lr and more exploration gave fastest improvement among Caline runs. |
-| Caline | C7            | CnnPolicy | 1e-5 |  0.99 |         32 |           1.0 |        0.01 |             0.10 |           -20.80 | Very low lr; network barely updates and agent learns almost nothing. |
-| Caline | C8            | CnnPolicy | 3e-4 |  0.99 |         32 |           1.0 |       0.001 |             0.10 |           -17.90 | Very low epsilon_end; earlier commitment gave slight improvement. |
-| Caline | C9            | CnnPolicy | 3e-4 |  0.97 |         64 |           1.0 |        0.05 |             0.15 |           -16.50 | Moderate gamma reduction with larger batch; agent loses less often. |
-| Caline | C10           | MlpPolicy | 3e-4 |  0.99 |         32 |           1.0 |        0.01 |             0.10 |           -21.00 | MLP cannot process raw pixels effectively; no learning observed. |
-| Elissa | E1            | CnnPolicy | 5e-4 |  0.99 |         32 |           1.0 |        0.05 |             0.10 |           -18.80 | Baseline showed slow but consistent early learning. |
-| Elissa | E2            | CnnPolicy | 5e-4 |  0.98 |         32 |           1.0 |        0.05 |             0.10 |           -19.20 | Slightly lower gamma gave marginally worse long-term behavior. |
-| Elissa | E3            | CnnPolicy | 5e-4 |  0.99 |        128 |           1.0 |        0.05 |             0.10 |           -17.40 | Larger batch produced steadier gradients and less noisy updates. |
-| Elissa | E4            | CnnPolicy | 5e-4 |  0.99 |         32 |           1.0 |        0.05 |             0.15 |           -17.00 | More exploration helped discover better states before exploiting. |
-| Elissa | E5            | CnnPolicy | 2e-4 |  0.99 |         32 |           1.0 |        0.05 |             0.10 |           -18.20 | Lower lr made learning slower but more conservative. |
-| Elissa | E6            | CnnPolicy | 2e-4 |  0.95 |         64 |           1.0 |        0.05 |             0.10 |           -19.60 | Lower gamma with lower lr weakened long-term planning. |
-| Elissa | E7            | CnnPolicy | 2e-4 |  0.99 |         32 |           1.0 |        0.05 |             0.25 |           -15.80 | Long exploration phase gave best Elissa result with visible improvement. |
-| Elissa | E8            | CnnPolicy | 1e-3 |  0.98 |         64 |           1.0 |        0.05 |             0.10 |           -16.60 | Higher lr and larger batch learned faster but with higher variance. |
-| Elissa | E9            | CnnPolicy | 1e-4 |  0.99 |         32 |           1.0 |        0.20 |             0.10 |           -19.80 | High epsilon_end caused persistent random actions and weak exploitation. |
-| Elissa | E10           | CnnPolicy | 5e-4 | 0.999 |         32 |           1.0 |        0.01 |             0.05 |           -17.20 | Very high gamma with low epsilon balanced future rewards with quicker exploitation. |
+| Mitali | M10           | MlpPolicy | 1e-4 |  0.99 |         32 |           1.0 |        0.02 |             0.10 |           -21.00 | MlpPolicy performed very poorly on raw Atari frames and failed to learn useful behavior.                     |
+| Caline | C1            | CnnPolicy | 3e-4 |  0.99 |         32 |           1.0 |        0.01 |             0.10 |           -18.40 | Stable baseline; agent begins learning but mostly losing at 50k steps.                                       |
+| Caline | C2            | CnnPolicy | 3e-4 |  0.90 |         32 |           1.0 |        0.01 |             0.10 |           -20.10 | Low gamma hurts long-term planning; agent nearly always losing.                                              |
+| Caline | C3            | CnnPolicy | 3e-4 |  0.99 |        256 |           1.0 |        0.01 |             0.10 |           -17.60 | Large batch slows updates; more stable but still early learning.                                             |
+| Caline | C4            | CnnPolicy | 3e-4 |  0.99 |         32 |           1.0 |        0.01 |             0.30 |           -16.80 | More exploration time; agent explores longer before committing.                                              |
+| Caline | C5            | CnnPolicy | 3e-4 |  0.99 |         32 |           1.0 |        0.50 |             0.10 |           -20.60 | Very high epsilon_end keeps policy near-random; agent not converging.                                        |
+| Caline | C6            | CnnPolicy | 1e-3 |  0.99 |        128 |           1.0 |        0.01 |             0.20 |           -15.20 | Higher lr and more exploration gave fastest improvement among Caline runs.                                   |
+| Caline | C7            | CnnPolicy | 1e-5 |  0.99 |         32 |           1.0 |        0.01 |             0.10 |           -20.80 | Very low lr; network barely updates and agent learns almost nothing.                                         |
+| Caline | C8            | CnnPolicy | 3e-4 |  0.99 |         32 |           1.0 |       0.001 |             0.10 |           -17.90 | Very low epsilon_end; earlier commitment gave slight improvement.                                            |
+| Caline | C9            | CnnPolicy | 3e-4 |  0.97 |         64 |           1.0 |        0.05 |             0.15 |           -16.50 | Moderate gamma reduction with larger batch; agent loses less often.                                          |
+| Caline | C10           | MlpPolicy | 3e-4 |  0.99 |         32 |           1.0 |        0.01 |             0.10 |           -21.00 | MLP cannot process raw pixels effectively; no learning observed.                                             |
+| Elissa | E1            | CnnPolicy | 5e-4 |  0.99 |         32 |           1.0 |        0.05 |             0.10 |           -18.80 | Baseline showed slow but consistent early learning.                                                          |
+| Elissa | E2            | CnnPolicy | 5e-4 |  0.98 |         32 |           1.0 |        0.05 |             0.10 |           -19.20 | Slightly lower gamma gave marginally worse long-term behavior.                                               |
+| Elissa | E3            | CnnPolicy | 5e-4 |  0.99 |        128 |           1.0 |        0.05 |             0.10 |           -17.40 | Larger batch produced steadier gradients and less noisy updates.                                             |
+| Elissa | E4            | CnnPolicy | 5e-4 |  0.99 |         32 |           1.0 |        0.05 |             0.15 |           -17.00 | More exploration helped discover better states before exploiting.                                            |
+| Elissa | E5            | CnnPolicy | 2e-4 |  0.99 |         32 |           1.0 |        0.05 |             0.10 |           -18.20 | Lower lr made learning slower but more conservative.                                                         |
+| Elissa | E6            | CnnPolicy | 2e-4 |  0.95 |         64 |           1.0 |        0.05 |             0.10 |           -19.60 | Lower gamma with lower lr weakened long-term planning.                                                       |
+| Elissa | E7            | CnnPolicy | 2e-4 |  0.99 |         32 |           1.0 |        0.05 |             0.25 |           -15.80 | Long exploration phase gave best Elissa result with visible improvement.                                     |
+| Elissa | E8            | CnnPolicy | 1e-3 |  0.98 |         64 |           1.0 |        0.05 |             0.10 |           -16.60 | Higher lr and larger batch learned faster but with higher variance.                                          |
+| Elissa | E9            | CnnPolicy | 1e-4 |  0.99 |         32 |           1.0 |        0.20 |             0.10 |           -19.80 | High epsilon_end caused persistent random actions and weak exploitation.                                     |
+| Elissa | E10           | CnnPolicy | 5e-4 | 0.999 |         32 |           1.0 |        0.01 |             0.05 |           -17.20 | Very high gamma with low epsilon balanced future rewards with quicker exploitation.                          |
 
-## Presentation Plan (10 minutes)
+## Presentation Overview
 
-- 1 minute: Introduce environment + objective.
-- 2 minutes: Mitali hyperparameter insights.
-- 2 minutes: Caline hyperparameter insights.
-- 2 minutes: Elissa hyperparameter insights.
-- 2 minutes: Best configuration and policy choice (MLP vs CNN).
-- 1 minute: Gameplay clip from `play.py`.
+This is how we organized the 10-minute presentation:
 
-All members should be ready for Q&A on:
+- **1 min**: Quick intro to Pong and what we were trying to do with DQN.
+- **2 min**: Mitali's findings from experiments (batch size effects, learning rates, etc.).
+- **2 min**: Caline's findings (exploration tuning, gamma impact).
+- **2 min**: Elissa's findings (epsilon decay strategies, policy variants).
+- **2 min**: Best configuration we found and why CNN beats MLP for visual inputs.
+- **1 min**: Gameplay video showing the agent in action.
 
-- Exploration vs exploitation trade-offs.
-- Why specific hyperparameters helped or hurt.
-- Why final model behavior makes sense.
-- Why MLP or CNN was selected as final policy.
+Key points we covered in Q&A prep:
 
-## Submission Checklist
+- Why does exploration matter in DQN? How do epsilon values affect learning?
+- Which hyperparameters had the biggest impact? Why did batch size help?
+- Why does policy choice (CNN vs MLP) matter so much for image-based control?
+- What did the agent actually learn to do in Pong?
 
-- `train.py` committed.
-- `play.py` committed.
-- Best model zip file committed (or clearly accessible in repo deliverable rules).
-- README includes completed hyperparameter table.
-- README includes/links gameplay video showing `play.py` running.
-- GitHub repository URL ready for Attempt 2.
-- Zip export ready for Attempt 1.
+## Deliverables
+
+Things we included for this submission:
+
+- ✅ `train.py` and `play.py` committed to repo.
+- ✅ Best trained models saved and available.
+- ✅ Complete hyperparameter results table with all 30 experiments.
+- ✅ Gameplay video showing the trained agent playing Pong.
+- ✅ GitHub repo ready for submission.
 
 <!-- Elissa: Added initial experiment plan E1-E5 -->
 
@@ -168,3 +172,12 @@ All members should be ready for Q&A on:
 <!-- Elissa: Added experiments E6-E10 -->
 
 <!-- Caline: Added experiments C6-C10 -->
+
+## Agent Gameplay
+
+Check out the trained agent playing Pong with the best configuration (M6 enhanced):
+
+🎮 **[Watch the agent play here](https://youtube.com/shorts/YGLDixOSNaI)**
+
+The agent visibly improves over the baseline runs—you can see it making deliberate moves and recovering from opponent shots.
+
