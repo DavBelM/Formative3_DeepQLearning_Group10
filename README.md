@@ -135,23 +135,71 @@ We ran 10 experiments per team member (30 total) with different hyperparameter c
 | Elissa | E9            | CnnPolicy | 1e-4 |  0.99 |         32 |           1.0 |        0.20 |             0.10 |           -19.80 | High epsilon_end caused persistent random actions and weak exploitation.                                      |
 | Elissa | E10           | CnnPolicy | 5e-4 | 0.999 |         32 |           1.0 |        0.01 |             0.05 |           -17.20 | Very high gamma with low epsilon balanced future rewards with quicker exploitation.                           |
 
-## Presentation Overview
 
-This is how we organized the 10-minute presentation:
+## Hyperparameter Tuning Discussion
 
-- **1 min**: Quick intro to Pong and what we were trying to do with DQN.
-- **2 min**: Mitali's findings from experiments (batch size effects, learning rates, etc.).
-- **2 min**: Caline's findings (exploration tuning, gamma impact).
-- **2 min**: Elissa's findings (epsilon decay strategies, policy variants).
-- **2 min**: Best configuration we found and why CNN beats MLP for visual inputs.
-- **1 min**: Gameplay video showing the agent in action.
+Running 30 experiments across the three of us gave us a much clearer 
+picture of what actually matters when training a DQN agent on Pong. 
+Here is what we found:
 
-Key points we covered in Q&A prep:
+### Learning Rate
+This was probably the most sensitive setting we touched. When we pushed 
+it too high (1e-3), the agent would start learning something and then 
+basically forget it (very unstable). When we went too low (1e-5), it 
+was painfully slow and barely moved from random play even after 50k steps. 
+The 1e-4 to 3e-4 range was clearly the sweet spot across all our runs.
 
-- Why does exploration matter in DQN? How do epsilon values affect learning?
-- Which hyperparameters had the biggest impact? Why did batch size help?
-- Why does policy choice (CNN vs MLP) matter so much for image-based control?
-- What did the agent actually learn to do in Pong?
+### Training Duration
+Honestly the biggest lesson from this whole assignment. M6 with 50k steps 
+gave us -18.60. The exact same settings with 200k steps (M6_final) gave 
+us -12.40. That jump shows that the agent was still in the middle of 
+learning at 50k, it just needed more time. Most of our experiments 
+probably would have looked better with more timesteps.
+
+### Gamma (Discount Factor)
+Dropping gamma too low (0.90 in C2) clearly hurt the agent, it stopped 
+caring about future rewards and just reacted to whatever was happening 
+right now. 0.99 worked best consistently across all members. Going very 
+high (0.999) made almost no visible difference at our training lengths.
+
+### Batch Size
+Small batches (16 in M7) made training noisy and the agent struggled to 
+learn anything consistent. Larger batches (64-128) gave smoother updates 
+and generally better results. Very large (256 in C3) was too slow to show 
+meaningful progress within 50k steps. 64 ended up being our best choice.
+
+### Exploration vs Exploitation (Epsilon)
+C5 was a good lesson here — keeping epsilon_end at 0.50 meant the agent 
+never really committed to what it had learned and stayed near-random the 
+whole time. On the other hand, E7 showed that giving the agent a longer 
+exploration phase (epsilon_fraction of 0.25) before forcing it to exploit 
+actually helped, it was Elissa's best result at -15.80. The key is 
+finding the right balance between exploring enough and exploiting what 
+you've learned.
+
+### CNNPolicy vs MlpPolicy
+This one was not even close. Both M10 and C10 tested MlpPolicy and both 
+scored -21, the agent learned absolutely nothing. This makes sense when 
+you think about it. Pong's input is a screen image. MLP just sees a flat 
+list of pixel numbers with no understanding of where things are spatially. 
+CNN actually looks at the image properly, it can pick up where the ball 
+is, which direction it is moving, and where the paddle is. For any Atari 
+game, CNN is the only real option.
+
+### Best Configuration
+Our best result came from M6_final:
+- Policy: CnnPolicy
+- Learning Rate: 1e-4
+- Gamma: 0.99
+- Batch Size: 64
+- Epsilon End: 0.02
+- Timesteps: 200,000
+- Final Reward: -12.40
+
+The combination of batch size 64 for stable updates and 200k timesteps 
+for enough training time is what made the difference compared to our 
+other runs.
+
 
 ## Deliverables
 
@@ -163,15 +211,30 @@ Things we included for this submission:
 - ✅ Gameplay video showing the trained agent playing Pong.
 - ✅ GitHub repo ready for submission.
 
-<!-- Elissa: Added initial experiment plan E1-E5 -->
+## Individual Contributions
 
-<!-- Caline: Added experiment plan C1-C5 -->
+We all worked on this together — no one person did everything alone.
 
-<!-- DavBelM: Refined README structure and experiment table -->
+At the start, we sat down as a group and figured out the setup together: 
+picking Pong as our environment, going through the train.py and play.py 
+scripts together, and making sure everyone understood what was happening 
+before we split off to run our own experiments.
 
-<!-- Elissa: Added experiments E6-E10 -->
+**Mitali** took the lead on setting up the GitHub repo and getting the 
+initial scripts ready. She also ran experiments M1–M10, did an extended 
+run with M6 to get a better model, and handled recording the gameplay video.
 
-<!-- Caline: Added experiments C6-C10 -->
+**Elissa** helped test the scripts to make sure they were working, ran 
+her experiments E1–E10, and pushed her results to the repo. She also 
+helped with documenting observations in the README.
+
+**Caline** also helped with testing, ran experiments C1–C10, and pushed 
+her results. Her MlpPolicy experiment (C10) gave us a clear comparison 
+point showing why CNN is the right choice for Atari.
+
+After everyone finished their runs, we got together to compare results, 
+discuss what worked and what didn't, and put together our findings for 
+the presentation.
 
 ## Agent Gameplay
 
@@ -179,4 +242,4 @@ Check out the trained agent playing Pong with the best configuration (M6 enhance
 
 🎮 **[Watch the agent play here](https://youtube.com/shorts/YGLDixOSNaI)**
 
-The agent visibly improves over the baseline runs—you can see it making deliberate moves and recovering from opponent shots.
+The agent visibly improves over the baseline runs, you can see it making deliberate moves and recovering from opponent shots.
